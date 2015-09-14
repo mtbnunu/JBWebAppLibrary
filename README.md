@@ -9,7 +9,6 @@
 
 EXAMPLE:
 
-    [DbConfigurationType(typeof(MySqlEFConfiguration))]
     public class SomeContext : DbContext
     {
         public SomeContext()
@@ -34,7 +33,7 @@ Declare as global variable:
 Initialize this variable in constructor: 
 	
 	public BaseRepository(){ 
-		unitOfWork = new UnitOfWork(SomeContext);
+	            unitOfWork = new UnitOfWork(new SomeContext());
 		}
 
 - You can use **Package Manager Console** and original **[Migration](http://www.asp.net/mvc/overview/getting-started/getting-started-with-ef-using-mvc/migrations-and-deployment-with-the-entity-framework-in-an-asp-net-mvc-application)** methods to deploy/update database
