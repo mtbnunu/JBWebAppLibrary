@@ -53,3 +53,11 @@ Whenever you make **any change** to a database (for example by insert() or updat
 **List of Methods:**
 --------------------
 
+**Troubleshooting**
+--------------------
+- Cannot resolve symbol xxxxx
+    - reinstall entity framework using package manager console
+    
+	Update-Package -reinstall EntityFramework
+
+
