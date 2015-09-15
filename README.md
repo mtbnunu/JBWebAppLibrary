@@ -1,5 +1,6 @@
 **Set Up:**
 -----------
+- Make sure your project has reference to EntityFramework (version 6)
 
 - Import this project as reference to your MVC5 web applicaiton project
 
