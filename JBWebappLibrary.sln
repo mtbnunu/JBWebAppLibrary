@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JBWebappLibrary", "JBWebappLibrary.csproj", "{28E79168-66BB-4AC6-83E4-E136A87DFF1D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JBWebappLibrary", "JBWebAppLibrary\JBWebappLibrary.csproj", "{28E79168-66BB-4AC6-83E4-E136A87DFF1D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
