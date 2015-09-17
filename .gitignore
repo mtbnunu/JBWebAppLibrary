@@ -77,4 +77,6 @@ _[Ss]cripts
 
 /packages/*/[Tt]ools
 /packages/*/[Cc]ontent
-/packages/*.xml
+
+/packages/*/lib/*.xml
+/packages/*/lib/*/*.xml
