@@ -1,8 +1,21 @@
+JBWebAppLibrary
+===========
+Author: Jae Yeong Bae
+Target Framework: MVC5/ EF6/ Razor
+Goal: Easily implement Unit Of Work design pattern; package often-used handlers
+
+To Use:
+----------------
+**Easy Way: **
+Download dist/JBWebAppLibrary.dll and reference it to your project
+**Why Bother This Way: **
+Download project and add it to your solution, and reference this project to your project
+
+
+
 **Set Up:**
 -----------
 - Make sure your project has reference to EntityFramework (version 6)
-
-- Import this project as reference to your MVC5 web applicaiton project
 
 - Define ***[connectionstring](https://www.connectionstrings.com/sqlconnection/)*** as you would in your web.config
 
