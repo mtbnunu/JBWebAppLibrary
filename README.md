@@ -1,8 +1,11 @@
 JBWebAppLibrary
 ===========
 Author: Jae Yeong Bae
+
 Target Framework: MVC5/ EF6/ Razor
+
 Goal: Easily implement Unit Of Work design pattern; package often-used handlers
+
 
 To Use:
 ----------------
