@@ -53,6 +53,8 @@ Whenever you make **any change** to a database (for example by insert() or updat
 
 **List of Methods:**
 --------------------
+// TODO
+// Look at code-completion for now.
 
 **Troubleshooting**
 --------------------
