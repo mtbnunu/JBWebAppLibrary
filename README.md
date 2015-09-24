@@ -6,9 +6,10 @@ Goal: Easily implement Unit Of Work design pattern; package often-used handlers
 
 To Use:
 ----------------
-**Easy Way: **
+*Easy Way: *
 Download dist/JBWebAppLibrary.dll and reference it to your project
-**Why Bother This Way: **
+
+*Why Bother This Way: *
 Download project and add it to your solution, and reference this project to your project
 
 
