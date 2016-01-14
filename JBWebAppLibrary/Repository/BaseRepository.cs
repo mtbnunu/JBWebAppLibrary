@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -89,6 +90,11 @@ namespace JBWebappLibrary.Repository
         {
             dbSet.Attach(entityToUpdate);
             context.Entry(entityToUpdate).State = EntityState.Modified;
+        }
+
+        public void AddOrUpdate(TEntity entity)
+        {
+            dbSet.AddOrUpdate(entity);
         }
 
         public int Count(Expression<Func<TEntity, bool>> filter = null)

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -26,6 +25,8 @@ namespace JBWebappLibrary.Repository
         void Delete(TEntity entityToDelete);
 
         void Update(TEntity entityToUpdate);
+
+        void AddOrUpdate(TEntity entity);
 
         int Count(Expression<Func<TEntity, bool>> filter = null);
     }
