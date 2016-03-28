@@ -13,6 +13,7 @@ namespace JBWebappLibrary.Repository
 
         IEnumerable<TEntity> Get(
             Expression<Func<TEntity, bool>> filter = null, int? count = null,
+            int? skip = null,
             Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
             params Expression<Func<TEntity, object>>[] properties);
 

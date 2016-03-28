@@ -24,6 +24,7 @@ namespace JBWebappLibrary.Repository
 
         public IEnumerable<TEntity> Get(
             Expression<Func<TEntity, bool>> filter = null, int? count = null,
+            int? skip = null,
             Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null, 
             params Expression<Func<TEntity, object>>[] properties)
         {
@@ -38,26 +39,18 @@ namespace JBWebappLibrary.Repository
 
             if (orderBy != null)
             {
-                if (count != null)
-                {
-                    return orderBy(query).Take((int)count).ToList();
-                }
-                else
-                {
-                    return orderBy(query).ToList();
-                }
+                query = orderBy(query);
             }
-            else
+
+            if (skip != null)
             {
-               if (count != null)
-                {
-                    return query.Take((int)count).ToList();
-                }
-                else
-                {
-                    return query.ToList();
-                }
+                query = query.Skip((int) skip);
             }
+            if (count != null)
+            {
+                query = query.Take((int) count);
+            }
+            return query.ToList();
         }
 
         public TEntity GetByID(object id, params Expression<Func<TEntity, object>>[] properties)
