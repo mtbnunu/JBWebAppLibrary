@@ -92,6 +92,7 @@
   <ItemGroup>
     <Compile Include="Handlers\EncryptionHandler.cs" />
     <Compile Include="Handlers\HtmlHelpers.cs" />
+    <Compile Include="Handlers\HttpRequestHelper.cs" />
     <Compile Include="Handlers\NotificationHandler.cs" />
     <Compile Include="Handlers\UTF8Checker.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
