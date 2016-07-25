@@ -16,7 +16,7 @@ namespace JBWebappLibrary.Handlers
     {
         private static string mobileUA = "Mozilla/5.0 (iPhone; CPU iPhone OS 8_0 like Mac OS X) AppleWebKit/600.1.3 (KHTML, like Gecko) Version/8.0 Mobile/12A4345d Safari/600.1.4";
 
-        public static string GET(string url, CookieContainer cookieJar = null, bool fakeMobileUA = false, bool noCache = false, bool post = false, Dictionary<string, string> data = null, Dictionary<string, string> headers = null)
+        public static string GET(string url, CookieContainer cookieJar = null, bool fakeMobileUA = false, bool noCache = false, string method = null, Dictionary<string, string> data = null, Dictionary<string, string> headers = null)
         {
             #region DATA
 
@@ -62,9 +62,9 @@ namespace JBWebappLibrary.Handlers
             {
                 request.UserAgent = mobileUA;
             }
-            if (post)
+            if (method != null)
             {
-                request.Method = "POST";
+                request.Method = method;
             }
 
             request.Credentials = CredentialCache.DefaultCredentials;
