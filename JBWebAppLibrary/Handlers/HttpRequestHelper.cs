@@ -4,19 +4,31 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Caching;
+using System.Web.Mvc;
+using JBWebappLibrary.Enum;
 
 namespace JBWebappLibrary.Handlers
 {
     public static class HttpRequestHelper
     {
-        private static string mobileUA = "Mozilla/5.0 (iPhone; CPU iPhone OS 8_0 like Mac OS X) AppleWebKit/600.1.3 (KHTML, like Gecko) Version/8.0 Mobile/12A4345d Safari/600.1.4";
+        private static readonly string mobileUA = "Mozilla/5.0 (iPhone; CPU iPhone OS 8_0 like Mac OS X) AppleWebKit/600.1.3 (KHTML, like Gecko) Version/8.0 Mobile/12A4345d Safari/600.1.4";
 
-        public static string GET(string url, CookieContainer cookieJar = null, bool fakeMobileUA = false, bool noCache = false, string method = null, Dictionary<string, string> data = null, Dictionary<string, string> headers = null)
+        public static async Task<string> Request(string url,
+            CookieContainer cookieJar = null,
+            bool fakeMobileUA = false,
+            bool noCache = false,
+            RequestMethod method = RequestMethod.Get,
+            Dictionary<string, string> data = null,
+            Dictionary<string, string> headers = null,
+            bool removeLineBreak = false,
+            HttpContent content = null)
         {
             #region DATA
 
@@ -44,47 +56,66 @@ namespace JBWebappLibrary.Handlers
 
             #region CACHE
 
+
             if (!noCache && HttpContext.Current.Cache["Get_" + (fakeMobileUA ? "M_" : "D_") + url] != null)
             {
-                return HttpContext.Current.Cache["Get_" + (fakeMobileUA ? "M_" : "D_") + url].ToString();
+                var responseString = HttpContext.Current.Cache["Get_" + (fakeMobileUA ? "M_" : "D_") + url].ToString();
+                return removeLineBreak
+                    ? StripWhiteSpaces(responseString)
+                    : responseString;
             }
 
             #endregion
 
-            Debug.WriteLine("REQUESTING: " + url);
+            var handler = new HttpClientHandler();
 
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
             if (cookieJar != null)
             {
-                request.CookieContainer = cookieJar;
-            }
-            if (fakeMobileUA)
-            {
-                request.UserAgent = mobileUA;
-            }
-            if (method != null)
-            {
-                request.Method = method;
+                handler.CookieContainer = cookieJar;
             }
 
-            request.Credentials = CredentialCache.DefaultCredentials;
+            var client = new HttpClient(handler);
+
+            if (fakeMobileUA)
+            {
+                client.DefaultRequestHeaders.Add("User-Agent",mobileUA);
+            }
 
             if (headers != null)
             {
                 foreach (var header in headers)
                 {
-                    request.Headers.Add(header.Key, header.Value);
+                    client.DefaultRequestHeaders.Add(header.Key, header.Value);
                 }
             }
 
             try
             {
-                WebResponse response = request.GetResponse();
-                using (Stream responseStream = response.GetResponseStream())
+                Task<HttpResponseMessage> result;
+                switch (method)
                 {
-                    StreamReader reader = new StreamReader(responseStream, Encoding.UTF8);
-                    var responseString = reader.ReadToEnd();
-                    if (noCache) return responseString;
+                    case RequestMethod.Get:
+                        result = client.GetAsync(url);
+                        break;
+                    case RequestMethod.Post:
+                        result = client.PostAsync(url, content);
+                        break;
+                    case RequestMethod.Put:
+                        result = client.PutAsync(url, content);
+                        break;
+                    case RequestMethod.Delete:
+                        result = client.DeleteAsync(url);
+                        break;
+                    default:
+                        throw new ArgumentException("Invalid Argument Method");
+
+                }
+                HttpResponseMessage response = await result;
+
+                response.EnsureSuccessStatusCode();
+                var responseString = await response.Content.ReadAsStringAsync();
+                if (!noCache)
+                {
 
                     HttpContext.Current.Cache["Get_" + (fakeMobileUA ? "M_" : "D_") + url] = responseString;
                     HttpContext.Current.Cache.Insert("Get_" + (fakeMobileUA ? "M_" : "D_") + url,
@@ -92,9 +123,10 @@ namespace JBWebappLibrary.Handlers
                         null,
                         DateTime.Now.AddHours(2),
                         Cache.NoSlidingExpiration);
-                    return responseString;
-
                 }
+                return removeLineBreak
+                    ? StripWhiteSpaces(responseString)
+                    : responseString;
             }
             catch (WebException ex)
             {
